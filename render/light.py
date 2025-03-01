@@ -69,7 +69,10 @@ class EnvironmentLight:
 
 @torch.no_grad()
 def _load_env_hdr(fn, scale=1.0, res=None):
-    latlong_img = torch.tensor(util.load_image(fn), dtype=torch.float32, device='cuda')*scale
+    from rfstudio.io import load_float32_image
+    from pathlib import Path
+    # latlong_img = torch.tensor(util.load_image(fn), dtype=torch.float32, device='cuda')*scale
+    latlong_img = load_float32_image(Path(fn)).cuda()*scale
 
     if res is not None:
         texcoord = util.pixel_grid(res[1], res[0])
